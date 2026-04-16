@@ -1,15 +1,29 @@
-class Stack {
+class Queue{
+
     constructor() {
         this.items = [];
     }
 
-    push(val) {
-        return this.items.push(val);
+    enqueue(val) {
+        this.items.push(val);
     }
 
-    pop() {
+    deeque() {
         if(this.isEmpty()) return null;
-        return this.items.pop();
+        return this.items.shift();
+    }
+
+    getFront() {
+        if(this.isEmpty()) return null;
+        return this.items[0];
+    }
+
+    isEmpty() {
+        return this.items.length === 0;
+    }
+
+    getSize() {
+        return this.items.length;
     }
 
     display() {
@@ -17,48 +31,17 @@ class Stack {
         console.log(this.items.join(' '));
         return;
     }
-
-    isEmpty() {
-        return this.items.length === 0;
-    }
-
-    sortStack() {
-        if(this.isEmpty()) return null;
-        let tempStack =[];
-
-        while(this.items.length) {
-            let temp = this.items.pop();
-
-            while(tempStack.length && tempStack[tempStack.length-1] > temp) {
-                this.items.push(tempStack.pop());
-            }
-            tempStack.push(temp);
-        }
-        this.items = tempStack;
-    }
-
-    peek() {
-        if(this.isEmpty()) return null;
-        return this.items[this.items.length-1];
-    }
-
-    size() {
-        return this.items.length;
-    }
 }
 
-// const stack = new Stack();
-// stack.push(10);
-// stack.push(50);
-// stack.push(30);
-// stack.push(20);
-// stack.push(40);
-// stack.display();
-// console.log(stack.peek());
-// stack.sortStack();
-// stack.display();
-// console.log(stack.peek());
-// console.log(stack.size());
+// const queue = new Queue();
+// queue.enqueue(10);
+// queue.enqueue(30);
+// queue.enqueue(20);
+// queue.display();
+// queue.deeque();
+// queue.display();
+// console.log(queue.getFront());
+// console.log(queue.getSize());
 
 class Node{
     constructor(val) {
@@ -67,248 +50,174 @@ class Node{
     }
 }
 
-class linkStack {
+class LinkQueue{
     constructor() {
-        this.top = null;
+        this.front = null;
+        this.rear = null;
         this.size = 0;
     }
 
-    isEmpty() {
-        return this.top === null;
-    }
-
-    push(val) {
+    enqueue(val) {
         const node = new Node(val);
-        node.next = this.top;
-        this.top = node;
+        if(!this.front) {
+            this.front = this.rear = node;
+        }else{
+        this.rear.next = node;
+        this.rear = node;
+        }
         this.size++;
     }
 
-    pop() {
+    isEmpty() {
+        return this.front === null;
+    }
+
+    dequeue() {
         if(this.isEmpty()) return null;
-        const removed = this.top.val;
-        this.top = this.top.next;
+        let removed = this.front.val;
+        this.front = this.front.next;
+        if(!this.front) this.rear = null;
         this.size--;
         return removed;
     }
 
-    peek() {
+    getFront() {
         if(this.isEmpty()) return null;
-        return this.top.val;
+        return this.front.val;
+    }
+
+    getRear() {
+        if(this.isEmpty()) return null;
+        return this.rear.val;
+    }
+
+    display() {
+        let curr = this.front;
+        let res = [];
+        while(curr) {
+            res.push(curr.val);
+            curr = curr.next;
+        }
+        console.log(res.join(' '));
     }
 
     getSize() {
         return this.size;
     }
-
-    display() {
-        if(this.isEmpty())return null;
-        let curr = this.top;
-        let res = [];
-        while(curr) {
-            res.push(curr.val);
-            curr = curr.next;
-        };
-        console.log(res.join(' -> '));
-    };
 }
 
-// const stack2 = new linkStack();
-// stack2.push(11);
-// stack2.push(44);
-// stack2.push(33);
-// stack2.display()
-// console.log(stack2.getSize());
-// console.log(stack2.pop());
-// stack2.display()
-// console.log(stack2.getSize());
-// console.log(stack2.peek());
+// const queue2 = new LinkQueue();
+// queue2.enqueue(101);
+// queue2.enqueue(202);
+// queue2.enqueue(303);
+// queue2.enqueue(404);
+// console.log(queue2.getFront());
+// console.log(queue2.getRear());
+// queue2.display()
+// console.log(queue2.getSize());
+// console.log('removed:', queue2.dequeue())
+// console.log(queue2.getFront());
+// console.log(queue2.getRear());
+// queue2.display()
+// console.log(queue2.getSize());
 
-class StackUsingQueue {
+class QueueUsingStack{
     constructor() {
-        this.q = [];
+        this.s1 = [];
+        this.s2 = [];
     }
 
-    push(val) {
-        this.q.push(val);
-        let size = this.q.length;
-
-        for(let i=0; i<size-1; i++) {
-            this.q.push(this.q.shift());
+    transfer() {
+        if(this.s2.length === 0) {
+            while(this.s1.length) {
+                this.s2.push(this.s1.pop());
+            }
         }
     }
 
-    pop() {
-        if(this.isEmpty()) return null;
-        return this.q.shift();
+    enqueue(val) {
+        this.s1.push(val);
     }
 
-    peek() {
+    dequeue() {
         if(this.isEmpty()) return null;
-        return this.q[0];
+        this.transfer();
+        return this.s2.pop();
     }
 
-    display() {
-        if(this.isEmpty()) return 'null';
-        console.log(this.q.join(' '));
-        return;
+    getFront() {
+        if(this.isEmpty()) return null;
+        this.transfer();
+        return this.s2[this.s2.length-1];
     }
 
     getSize() {
-        return this.q.length;
+        return this.s1.length + this.s2.length;
     }
 
     isEmpty() {
-        return this.q.length === 0;
-    }
-}
-
-// const stack3 = new StackUsingQueue();
-// stack3.push(33);
-// stack3.push(55);
-// stack3.push(77);
-// stack3.push(11);
-// stack3.display();
-// console.log(stack3.pop());
-// stack3.display();
-// console.log(stack3.getSize());
-// console.log(stack3.peek());
-// stack3.push(22);
-// stack3.display();
-
-class maxStack{
-    constructor() {
-        this.items = [];
-        this.maxStack = [];
-    }
-
-    push(val) {
-        this.items.push(val);
-        if(this.maxStack.length===0 || val >= this.maxStack[this.maxStack.length-1]){
-            this.maxStack.push(val);
-        }
-    }
-
-    pop() {
-        if(this.isEmpty()) return null;
-        let removed = this.items.pop();
-        if(removed === this.maxStack[this.maxStack.length-1]) {
-            this.maxStack.pop();
-        }
-        return removed;
-    }
-
-    getMax() {
-        if(this.isEmpty()) return null;
-        return this.maxStack[this.maxStack.length-1];
-    }
-
-    peek() {
-        if(this.isEmpty()) return null;
-        return this.items[this.items.length-1];
-    }
-
-    getSize() {
-        return this.items.length;
+        return this.s1.length === 0 && this.s2.length === 0;
     }
 
     display() {
         if(this.isEmpty()) return null;
-        console.log(this.items.join(' '));
+        return [...this.s2].reverse().concat(this.s1).join(' ');
+    }
+}
+
+const queue3 = new QueueUsingStack();
+queue3.enqueue(111);
+queue3.enqueue(222);
+queue3.enqueue(333);
+console.log(queue3.display());
+console.log(queue3.getFront());
+console.log(queue3.getSize());
+
+console.log(queue3.dequeue());
+console.log(queue3.display());
+console.log(queue3.getFront());
+console.log(queue3.getSize());
+
+class CircularQueue{
+    
+    constructor(size) {
+        this.q = new Array(size);
+        this.front = this.rear = -1;
+        this.size = size;
     }
 
     isEmpty() {
-        return this.items.length === 0;
+        return this.front === -1;
     }
-}
 
-const stack4 = new maxStack();
-stack4.push(45);
-stack4.push(23);
-stack4.push(55);
-console.log(stack4.getMax());
-
-
-class Node{
-  constructor(val) {
-    this.val = val;
-    this.next = null;
-  }
-}
-
-class Stack{
-  constructor() {
-    this.head = null;
-    this.size = 0;
-  }
-  
-  push(val) {
-    const node = new Node(val);
-    node.next = this.head;
-    this.head = node;
-    this.size++;
-  }
-  
-  pop() {
-    if(!this.head) return null;
-    let removed = this.head.val;
-    this.head = this.head.next;
-    this.size--;
-    return removed;
-  }
-  
-  isEmpty() {
-    return this.size === 0;
-  }
-  
-}
-
-class UndoRedo{
-  constructor() {
-    this.undoStack = new Stack();
-    this.redoStack = new Stack();
-  }
-  
-  push(val) {
-    this.undoStack.push(val);
-    this.redoStack = new Stack();
-  }
-  
-  undo() {
-    if(this.undoStack.isEmpty()) return null;
-    const removed = this.undoStack.pop();
-    this.redoStack.push(removed);
-    return removed;
-  }
-  
-  redo() {
-    if(this.redoStack.isEmpty()) return null;
-    let restored = this.redoStack.pop();
-    this.undoStack.push(restored);
-    return restored;
-  }
-  
-  display() {
-    if(this.undoStack.isEmpty()) return null;
-    let curr = this.undoStack.head;
-    let res = [];
-    while(curr) {
-      res.push(curr.val);
-      curr = curr.next;
+    isFull() {
+        return (this.rear+1)%this.size === this.front;
     }
-    console.log(res.join(' -> ') + ' -> null');
-  }
-}
+    
+    enqueue(val) {
+        if(this.isFull()) throw new Error('Queue overflow');
+        if(this.front === -1) this.front = 0;
+        this.rear = (this.rear+1) % this.size;
+        this.q[this.rear] = val;
+    }
+    
+    dequeue() {
+        if(this.isEmpty()) throw new Error('Queue undeflow');
+        const val = this.q[this.front];
+        if(this.front === this.rear) {
+            this.front = this.rear = -1;
+        }else{
+            this.front = (this.front+1) % this.size;
+        }
+        return val;
+    }
 
-const stack = new UndoRedo();
-stack.push(66);
-stack.push(56);
-stack.push(46);
-stack.push(36);
-stack.push(26);
-stack.display();
-stack.undo();
-stack.undo()
-stack.display();
-stack.redo();
-stack.display()
+    getFront() {
+        return this.isEmpty() ? null : this.q[this.front];
+    }
+
+    getRear() {
+        return this.isEmpty() ? null : this.q[this.rear];
+    }
+
+}
