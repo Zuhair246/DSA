@@ -110,3 +110,39 @@ function validParanthesis (str) {
 
 let inputs = [1,4,5,2,3,7,8,0,9];
 let array = ['zuhair','ahmed','savad','qaiz','ajmalath','labeeba'];
+
+
+function quickSort(arr) {
+    if(arr.length === 0) return arr;
+    let pivot = arr[arr.length-1];
+    let left = [];
+    let right = [];
+    for(let i=0; i<arr.length-1; i++) {
+        if(arr[i] < pivot) left.push(arr[i]);
+        else right.push(arr[i]);
+    }
+    return [...quickSort(left), pivot, ...quickSort(right)];
+}
+const arr = [5,9,3,1,4,8,6,2,7,0,78,35,45,12,23,79,35,21];
+
+function sortMiddle(arr) {
+    let mid = Math.floor(arr.length/2);
+    let start = Math.max(0, mid-5);
+    let end = Math.min(arr.length, mid+5);
+    return [...arr.slice(0, start), ...quickSort(arr.slice(start, end)), ...arr.slice(end)];
+}
+//console.log(sortMiddle(arr));
+
+//Insert a element to a sorted array, without breaking order.
+function insertSorted(arr, k) {
+    arr.push(k);
+    let i = arr.length-2;
+    while(i>=0 && arr[i]>k) {
+        arr[i+1] = arr[i];
+        i--;
+    }
+    arr[i+1] = k;
+    return arr;
+}
+const arr2 = [1, 2, 2, 4, 6, 5, 7, 8];
+console.log(insertSorted(arr2, 3));
