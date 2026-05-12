@@ -193,7 +193,7 @@ class CircularQueue{
     isFull() {
         return (this.rear+1)%this.size === this.front;
     }
-    
+
     enqueue(val) {
         if(this.isFull()) throw new Error('Queue overflow');
         if(this.front === -1) this.front = 0;

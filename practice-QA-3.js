@@ -60,7 +60,7 @@ class Stack {
 // console.log(stack.peek());
 // console.log(stack.size());
 
-class Node{
+class Node {
     constructor(val) {
         this.val = val;
         this.next = null;
@@ -229,40 +229,6 @@ stack4.push(55);
 console.log(stack4.getMax());
 
 
-class Node{
-  constructor(val) {
-    this.val = val;
-    this.next = null;
-  }
-}
-
-class Stack{
-  constructor() {
-    this.head = null;
-    this.size = 0;
-  }
-  
-  push(val) {
-    const node = new Node(val);
-    node.next = this.head;
-    this.head = node;
-    this.size++;
-  }
-  
-  pop() {
-    if(!this.head) return null;
-    let removed = this.head.val;
-    this.head = this.head.next;
-    this.size--;
-    return removed;
-  }
-  
-  isEmpty() {
-    return this.size === 0;
-  }
-  
-}
-
 class UndoRedo{
   constructor() {
     this.undoStack = new Stack();
@@ -291,12 +257,12 @@ class UndoRedo{
   display() {
     if(this.undoStack.isEmpty()) return null;
     let curr = this.undoStack.head;
-    let res = [];
+    let res = '';
     while(curr) {
-      res.push(curr.val);
+      res += curr.val + ' -> '
       curr = curr.next;
     }
-    console.log(res.join(' -> ') + ' -> null');
+    console.log(res + ' -> null');
   }
 }
 

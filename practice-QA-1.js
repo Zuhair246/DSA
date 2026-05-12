@@ -214,3 +214,55 @@ list.print()
 console.log(list.getSize());
 console.log(list.search(10));
 console.log(list.findMiddle());
+
+
+class linkedListII {
+  constructor() {
+    this.head = null;
+    this.size = 0;
+  }
+  
+  append(val) {
+    const node = new Node(val);
+    if(!this.head) {
+      this.head = node;
+    }else {
+      let curr = this.head;
+      while(curr.next) {
+        curr = curr.next;
+      }
+      curr.next = node;
+      this.size++;
+    }
+  }
+  
+  sumOfEven() {
+    let curr = this.head;
+    let sum = 0;
+    while(curr) {
+      if(curr.val%2 === 0) {
+        sum += curr.val;
+      }
+      curr = curr.next;
+    }
+    return sum;
+  }
+  
+  print() {
+    let curr = this.head;
+    let res = '';
+    while(curr) {
+      res += curr.val + ' -> ';
+      curr = curr.next;
+    }
+    console.log(res + 'null');
+  }
+}
+
+const list2 = new linkedListII();
+list2.append(10);
+list2.append(3);
+list2.append(90);
+list2.append(99);
+list2.print();
+console.log(list2.sumOfEven())

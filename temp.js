@@ -125,7 +125,7 @@ function bubbleSort(arr) {
 
 const arr = [5,9,3,1,4,8,6,2,7,0,78,35,45,12,23,79,35,21];
 
-console.log(bubbleSort(arr));
+//console.log(bubbleSort(arr));
 
 function insertionSort(arr) {
     for(let i=1; i<arr.length; i++) {
@@ -155,3 +155,21 @@ function SelectionSort(arr) {
     return arr;
 }
 //console.log(SelectionSort(arr));
+
+
+let arr1 = [1, 4, 7, 10];
+let arr2 = [2, 3, 8, 9, 11, 15];
+
+function mergeSortedArrays (arr1, arr2) {
+  let m = arr1.length;
+  let n = arr2.length;
+  let res = [];
+  let i = 0, j=0;
+  while(i<m && j<n) {
+    if(arr1[i] <= arr2[j]) res.push(arr1[i++]);
+    else res.push(arr2[j++]);
+  }
+  return res.concat(arr1.slice(i)).concat(arr2.slice(j));
+}
+
+console.log(mergeSortedArrays(arr1, arr2));

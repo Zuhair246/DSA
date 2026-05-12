@@ -47,7 +47,7 @@ function flatArrayI(arr) {
     },[])
 };
 let arr = [1,3,[2,4,[2]],6];
-console.log(flatArrayI(arr));
+//console.log(flatArrayI(arr));
 
 function flatArrayII (arr) {
     let result = [];
@@ -63,3 +63,16 @@ function flatArrayII (arr) {
 }
 //console.log(flatArrayII(arr));
 
+function print(n) {
+  if(n<=0) return;
+  console.log(n);
+  print(n-1);
+}
+//print(10);
+
+function print(n) {
+  if(n<=0) return;
+  print(n-1);
+  console.log(n);
+}
+//print(10);
