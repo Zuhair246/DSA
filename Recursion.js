@@ -76,3 +76,18 @@ function print(n) {
   console.log(n);
 }
 //print(10);
+
+function reverseArray(arr, i=0, j=arr.length-1) {
+  if(i>=j) return arr;
+  [arr[i], arr[j]] = [arr[j], arr[i]];
+  return reverseArray(arr, i+1, j-1);
+}
+console.log(reverseArray([1,2,3,4,5]));
+
+function checkPalindrome(str, i=0, j=str.length-1) {
+  if(i>=j) return true;
+  str = str.toLowerCase();
+  if(str[i] !== str[j]) return false;
+  return checkPalindrome(str, i+1, j-1);
+}
+console.log(checkPalindrome('Malayalam'));

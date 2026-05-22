@@ -1,175 +1,197 @@
 class Node{
     constructor(val) {
         this.val = val;
-        this.next = null;
+        this.left = null;
+        this.right = null;
     }
 }
 
-class singlyLinkedList{
+class BST {
     constructor() {
-        this.head = null;
-        this.size = 0;
+        this.root = null;
     }
 
-    insertAtEnd(val) {
-        const node = new Node(val);
-        if(!this.head) {
-            this.head = node;
+    print() {
+        if(!this.root) return null;
+        const queue = [this.root];
+        while(queue.length) {
+            const size = queue.length;
+            let level = [];
+            for(let i=0; i<size; i++) {
+                let curr = queue.shift();
+                level.push(curr.val);
+
+                if(curr.left) queue.push(curr.left);
+                if(curr.right) queue.push(curr.right);
+            }
+            console.log(level.join(' '));
+        }
+    }
+
+    insert(val) {
+        this.root = this._insert(this.root, val);
+    }
+    _insert(node, val) {
+        if(!node) return new Node(val);
+        
+        if(val < node.val) {
+            node.left = this._insert(node.left, val);
         }else{
-            let curr = this.head;
-            while(curr.next) {
-                curr = curr.next;
+            node.right = this._insert(node.right, val);
+        }
+        return node;
+    }
+
+    contains(val) {
+        return this._contains(this.root, val);
+    }
+    _contains(node, val) {
+        if(!node) return false;
+        if(val < node.val) {
+            return this._contains(node.left, val);
+        }else if(val > node.val) {
+            return this._contains(node.right, val);
+        }else {
+            return true;
+        }
+    }
+
+    delete(val) {
+        this.root = this._delete(this.root, val);
+    }
+    _delete(node, val) {
+        if(!node) return;
+
+        if(val < node.val) {
+            node.left = this._delete(node.left, val);
+        }else if(val > node.val) {
+            node.right = this._delete(node.right, val);
+        }else{
+            if(!node.left && !node.right) return null;
+
+            if(!node.left) return node.right;
+            if(!node.right) return node.left;
+
+            let successor = this.findMin(node.right);
+            node.val = successor;
+            node.right = this._delete(node.right, successor);
+        }
+        return node;
+    }
+    findMin(node) {
+        while(node.left) {
+            node = node.left;
+        }
+        return node.val;
+    }
+
+    isValidBST() {
+        return this.validate(this.root, -Infinity, Infinity);
+    }
+    validate(node, min, max) {
+        if(!node) return true;
+
+        if(node.val <= min || node.val >= max) return false;
+
+        return (
+            this.validate(node.left, min, node.val) && this.validate(node.right, node.val, max)
+        );
+    }
+
+    isBST() {
+        let prev = -Infinity;
+        
+        function validate(node) {
+            if(!node) return true;
+
+            if(!validate(node.left)) return false;
+
+            if(node.val <= prev) return false;
+            prev = node.val;
+
+            return validate(node.right);
+        }
+        return validate(this.root);
+    }
+
+    min() {
+        if(!this.root) return undefined;
+        let node = this.root;
+        while(node.left) {
+            node = node.left;
+        }
+        return node.val;
+    }
+
+    max() {
+        if(!this.root) return undefined;
+        let node = this.root;
+        while(node.right) {
+            node = node.right;
+        }
+        return node.val;
+    }
+
+    findRoot() {
+        if(!this.root) return null;
+        return this.root.val;
+    }
+
+    findLeaves() {
+        const leaves = [];
+        function dfs(node){
+            if(!node) return;
+
+            if(!node.left && !node.right) {
+                leaves.push(node.val);
+                return;
             }
-            curr.next = node;
-        }
-        this.size++;
-    }
 
-    display() {
-        let curr = this.head;
-        let res = '';
-        while(curr) {
-            res += curr.val + ' -> ';
-            curr = curr.next;
+            dfs(node.left);
+            dfs(node.right);
         }
-        console.log(res + 'null')
-    }
-
-    removeDups() {
-        if(!this.head) return null;
-        if(!this.head.next) return this.head;
-        let seen = new Set();
-        let curr = this.head;
-        let prev = null;
-        while(curr) {
-            if(seen.has(curr.val)) {
-                prev.next = curr.next;
-                this.size--;
-            }else{
-                seen.add(curr.val);
-                prev = curr;
-            }
-            curr = curr.next;
-        }
-        return this.head;
-    }
-
-    removeSortDups() {
-        if(!this.head) return null;
-        let curr = this.head;
-        while(curr && curr.next) {
-            if(curr.val === curr.next.val) {
-                curr.next = curr.next.next;
-                this.size--;
-            }else{
-                curr = curr.next;
-            }
-        }
-        return this.head;
-    }
-
-    findNtFrmEnd(n) {
-        if(!this.head) return null;
-        if(n<=0 || n>this.size) return null;
-        let fast = this.head;
-        let slow = this.head;
-
-        for(let i=0; i<n; i++) {
-            if(!fast) return null;
-            fast = fast.next;
-        }
-
-        while(fast) {
-            fast = fast.next;
-            slow = slow.next;
-        }
-        return slow.val;
+        dfs(this.root);
+        return leaves;
     }
 }
 
-const list = new singlyLinkedList();
-list.insertAtEnd(10);
-list.insertAtEnd(20);
-list.insertAtEnd(20);
-list.insertAtEnd(20);
-list.insertAtEnd(40);
-list.insertAtEnd(50);
-list.insertAtEnd(60);
-list.insertAtEnd(60);
-list.insertAtEnd(100);
-//list.display();
-// list.removeDups();
-//list.removeSortDups();
-// list.display()
-//console.log(list.findNtFrmEnd(-1));
+const tree = new BST();
 
-function bubbleSort(arr) {
-    let swapped;
-    let count = 0;
-    for(let i=0; i<arr.length; i++) {
-        swaped = false;
-        for(let j=0; j<arr.length-i-1; j++) {
-            if(arr[j] > arr[j+1]) {
-                [arr[j], arr[j+1]] = [arr[j+1], arr[j]];
-                swapped = true;
-                count++;
-            }
-        }
-        if(!swapped) break;
-    }
-    return {
-        sorted_array: arr,
-        swap_count: count
-    }
-}
+tree.insert(20);
+tree.insert(30);
+tree.insert(7);
+tree.insert(4);
+tree.insert(15);
+tree.insert(25);
+tree.insert(50);
+tree.insert(2);
+tree.insert(5);
+tree.insert(10);
+tree.insert(18);
+tree.insert(21);
+tree.insert(26);
+tree.insert(35);
+tree.insert(55);
 
-const arr = [5,9,3,1,4,8,6,2,7,0,78,35,45,12,23,79,35,21];
+tree.print();
 
-//console.log(bubbleSort(arr));
+//const search = tree.contains(20);
+//console.log(search);
+console.log('------------------');
 
-function insertionSort(arr) {
-    for(let i=1; i<arr.length; i++) {
-        let temp = arr[i];
-        let j = i-1;
-        while(j>=0 && arr[j]>temp) {
-            arr[j+1] = arr[j];
-            j--;
-        }
-        arr[j+1] = temp;
-    }
-    return arr;
-}
-//console.log(insertionSort(arr));
+//tree.delete(10);
+//tree.print();
+/*
+tree.root = new Node(15);
+tree.root.left = new Node(19);
+tree.root.right = new Node(20);
+tree.print()
+*/
 
+//console.log(tree.isValidBST());
 
-function SelectionSort(arr) {
-    for(let i=0; i<arr.length-1; i++) {
-        let min = i;
-        for(let j=i+1; j<arr.length; j++) {
-            if(arr[j] < arr[min]) {
-                min = j;
-            }
-        }
-        [arr[i], arr[min]] = [arr[min], arr[i]];
-    }
-    return arr;
-}
-//console.log(SelectionSort(arr));
-
-
-let arr1 = [1, 4, 7, 10];
-let arr2 = [2, 3, 8, 9, 11, 15];
-
-function mergeSortedArrays (arr1, arr2) {
-  let m = arr1.length;
-  let n = arr2.length;
-  let res = [];
-  let i = 0, j=0;
-  while(i<m && j<n) {
-    if(arr1[i] <= arr2[j]) res.push(arr1[i++]);
-    else res.push(arr2[j++]);
-  }
-  return res.concat(arr1.slice(i)).concat(arr2.slice(j));
-}
-
-console.log(mergeSortedArrays(arr1, arr2));
+//console.log(tree.isBST());
+console.log(tree.min());
+console.log(tree.max());
+console.log(tree.findRoot());
+console.log(tree.findLeaves());
