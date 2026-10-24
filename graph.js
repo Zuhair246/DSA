@@ -23,7 +23,7 @@ class Graph {
             console.log(vertex, '->' , [...this.adjList[vertex]]);
         }
     }
-    /*
+  
     bfs(start) {
         if(!this.adjList[start]) return;
         let visited = new Set();
@@ -43,7 +43,7 @@ class Graph {
             }
         }
     }
-    */
+   
     /*
     dfs(node, visited=new Set()) {
         if(!this.adjList[node] || visited.has(node)) return;
@@ -67,7 +67,7 @@ class Graph {
         }  
         return count/2;
     }
-    /*
+  
     isCyclic() {
         const visited = new Set();
         const dfs = (vertex, parent) => {
@@ -88,8 +88,8 @@ class Graph {
         }
         return false;
     }
-    */
-   /*
+
+ 
     shortestPath(start, end) {
        if(!this.adjList[start] || !this.adjList[end]) return null;
 
@@ -119,7 +119,7 @@ class Graph {
        }
        return path.reverse();
     }
-    */
+ 
 
 
     dfs(node, visited=new Set()) {
@@ -138,7 +138,7 @@ class Graph {
         
 }
 
-//Dijkstra's algorythm
+// Dijkstra's algorythm
 
 const graph = new Graph();
 graph.addVertex('A');

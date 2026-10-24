@@ -155,43 +155,222 @@ class BST {
     }
 }
 
-const tree = new BST();
+class binaryTree {
+    constructor() {
+        this.root = null;
+    }
 
-tree.insert(20);
-tree.insert(30);
-tree.insert(7);
-tree.insert(4);
-tree.insert(15);
-tree.insert(25);
-tree.insert(50);
-tree.insert(2);
-tree.insert(5);
-tree.insert(10);
-tree.insert(18);
-tree.insert(21);
-tree.insert(26);
-tree.insert(35);
-tree.insert(55);
+    print() {
+        if(!this.root) return;
+        const queue = [this.root];
+        while(queue.length) {
+            const size = queue.length;
+            let level = [];
+            for(let i=0; i<size; i++) {
+                const curr = queue.shift();
+                level.push(curr.val);
+                if(curr.left) queue.push(curr.left);
+                if(curr.right) queue.push(curr.right);
+            }
+            console.log(level.join(' '));
+        }
+    }
 
-tree.print();
+    insert(val) {
+        const node = new Node(val);
+        if(!this.root) {
+            this.root = node;
+            return;
+        }
+        const queue = [this.root];
+        while(queue.length) {
+            const curr = queue.shift();
+            if(!curr.left) {
+                curr.left = node;
+                return;
+            }else{
+                queue.push(curr.left);
+            }
 
-//const search = tree.contains(20);
-//console.log(search);
-console.log('------------------');
+            if(!curr.right) {
+                curr.right = node;
+                return;
+            }else{
+                queue.push(curr.right);
+            }
+        }
+    }
 
-//tree.delete(10);
-//tree.print();
+    inOrder(node=this.root) {
+        if(!node) return;
+
+        this.inOrder(node.left);
+        console.log(node.val);
+        this.inOrder(node.right);
+    }
+
+    preOrder(node = this.root) {
+        if(!node) return;
+
+        console.log(node.val);
+        this.preOrder(node.left);
+        this.preOrder(node.right);
+    }
+
+    postOrder(node = this.root) {
+        if(!node) return;
+
+        this.postOrder(node.left);
+        this.postOrder(node.right);
+        console.log(node.val);
+    }
+
+    heightDFS(node=this.root) {
+        if(!node) return 0;
+
+        let left = this.heightDFS(node.left);
+        let right = this.heightDFS(node.right);
+
+        return 1+Math.max(left, right);
+    }
+
+    heightBFS() {
+        let height = 0;
+        function dfs(node) {
+            if(!node) return 0;
+            let queue = [node];
+            while(queue.length) {
+                const size = queue.length;
+                for(let i=0; i<size; i++) {
+                    let curr = queue.shift();
+                    if(curr.left) queue.push(curr.left);
+                    if(curr.right) queue.push(curr.right);
+                }
+                height++;
+            }
+            return height;
+        }
+        return dfs(this.root);
+    }
+
+    getDepth(target) {
+        return this._depth(this.root, target);
+    }
+    _depth(node, target, level=1) {
+        if(!node) return 0;
+
+        if(node.val === target) return level;
+
+        let left = this._depth(node.left, target, level+1);
+        if(left !== 0) return left;
+
+        return this._depth(node.right, target, level+1);
+    }
+
+    diameter() {
+        let diameter = 0;
+        function height(node) {
+            if(!node) return -1;
+
+            let left = height(node.left);
+            let right = height(node.right);
+
+            diameter = Math.max(diameter, left+right+2);
+            return 1+Math.max(left, right);
+        }
+        height(this.root);
+        return diameter;
+    }
+
+    isBalanced(node = this.root) {
+        return this.checkHeight(node) !== -1;
+    }
+    checkHeight(node) {
+        if(!node) return 0;
+        
+        let left = this.checkHeight(node.left);
+        if(left === -1) return -1;
+
+        let right = this.checkHeight(node.right);
+        if(left === -1) return -1;
+
+        if(Math.abs(left-right)>1) return -1;
+
+        return 1+Math.max(left, right);
+    }
+}
+
+const bt = new binaryTree();
+bt.insert(90);
+bt.insert(10);
+bt.insert(50);
+bt.insert(20);
+bt.insert(6);
+bt.insert(18);
+bt.insert(31);
+bt.insert(43);
+bt.insert(56);
+bt.insert(68);
+bt.insert(81);
+bt.insert(93);
 /*
-tree.root = new Node(15);
-tree.root.left = new Node(19);
-tree.root.right = new Node(20);
-tree.print()
+bt.root = new Node(90);
+bt.root.left = new Node (30);
+bt.root.right = new Node(20);
+bt.root.left.left = new Node (50);
+bt.root.left.right = new Node(40);
+bt.root.right.left = new Node (70);
+bt.root.right.right = new Node (60);
+*/
+bt.print()
+console.log('------------------');
+//bt.inOrder();
+//bt.preOrder();
+//bt.postOrder();
+//console.log(bt.heightDFS());
+//console.log(bt.heightBFS());
+console.log(bt.getDepth(20));
+console.log(bt.diameter());
+console.log(bt.isBalanced());
+
+
+const bst = new BST();
+
+bst.insert(20);
+bst.insert(30);
+bst.insert(7);
+bst.insert(4);
+bst.insert(15);
+bst.insert(25);
+bst.insert(50);
+bst.insert(2);
+bst.insert(5);
+bst.insert(10);
+bst.insert(18);
+bst.insert(21);
+bst.insert(26);
+bst.insert(35);
+bst.insert(55);
+
+//bst.print();
+
+//const search = bst.contains(20);
+//console.log(search);
+//console.log('------------------');
+
+//bst.delete(10);
+//bst.print();
+/*
+bst.root = new Node(15);
+bst.root.left = new Node(19);
+bst.root.right = new Node(20);
+bst.print()
 */
 
-//console.log(tree.isValidBST());
+//console.log(bst.isValidBST());
 
-//console.log(tree.isBST());
-console.log(tree.min());
-console.log(tree.max());
-console.log(tree.findRoot());
-console.log(tree.findLeaves());
+//console.log(bst.isBST());
+//console.log(bst.min());
+//console.log(bst.max());
+//console.log(bst.findRoot());
+//console.log(bst.findLeaves());

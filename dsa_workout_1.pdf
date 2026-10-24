@@ -1,0 +1,99 @@
+striver has dsa content
+take you forward
+
+
+undo/redo using linked list
+
+
+📦 Arrays
+Find the second largest element
+Move all zeros to end
+Rotate array by k steps
+Find duplicates in array
+Kadane’s Algorithm (max subarray sum)
+
+🔗 Linked List
+Reverse a linked list
+Detect cycle (Floyd’s algorithm)
+Find middle node
+Merge two sorted lists
+Remove nth node from end
+
+🔍 Searching
+Implement binary search
+Find first occurrence in sorted array
+Search in rotated sorted array
+Find square root using binary search
+Peak element problem
+
+🔤 Strings
+Reverse a string
+Check palindrome
+Find first non-repeating character
+Anagram check
+Longest substring without repeating characters
+
+🔁 Recursion
+Factorial
+Fibonacci
+Print all subsets
+Tower of Hanoi
+N-Queens problem
+Find binary equivalent of n
+
+📚 Stack
+Valid parentheses
+Next greater element
+Min stack
+Evaluate postfix expression
+Largest rectangle in histogram
+
+🚶 Queue
+Implement queue using stack
+Circular queue
+Sliding window maximum
+First non-repeating character in stream
+Generate binary numbers
+
+🔄 Bubble Sort
+Implement bubble sort
+Optimize bubble sort (early stop)
+Count swaps
+Sort descending
+Find kth largest using bubble logic
+
+🔄 Selection Sort
+Implement selection sort
+Find minimum each pass
+Sort in descending
+Count swaps
+Compare with bubble sort
+
+🔄 Insertion Sort
+Implement insertion sort
+Sort nearly sorted array
+Count shifts
+Insert element in sorted array
+Online sorting scenario
+
+⚡ Quick Sort
+Implement quick sort
+Choose pivot strategies
+Partition logic
+Quickselect (kth smallest)
+Worst-case scenario analysis
+
+🔀 Merge Sort
+Implement merge sort
+Merge two sorted arrays
+Count inversions
+External sorting
+Sort linked list
+
+🗂 Hash Table
+Two Sum problem
+Frequency count of elements
+Longest consecutive sequence
+Subarray with given sum
+Detect duplicates
+

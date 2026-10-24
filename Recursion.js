@@ -91,3 +91,43 @@ function checkPalindrome(str, i=0, j=str.length-1) {
   return checkPalindrome(str, i+1, j-1);
 }
 console.log(checkPalindrome('Malayalam'));
+
+function countDown(n) {
+    if(n===0) return;
+    console.log(n);
+    countDown(n-1);
+};
+
+//console.log(countDown(3))
+
+function sumOfEven(n) {
+    return (n/2*(n/2 + 1));
+}
+
+//console.log(sumOfEven(10))
+
+function sumOfEvenToN (n) {
+    if(n<2) return 0;
+
+    if(n%2 !== 0) {
+        n = n-1;
+    }
+
+    return n + sumOfEvenToN(n-2);
+}
+
+//console.log(sumOfEvenToN(10));
+
+function sumOfEvenOfArray (arr, index=0) {
+    if(arr.length === index) return 0;
+
+    const remainingSum = sumOfEvenOfArray(arr, index+1);
+
+    if(arr[index]%2 === 0) {
+        return arr[index] + remainingSum;
+    }
+
+    return remainingSum;
+}
+
+console.log(sumOfEvenOfArray([1,2,3,4,5,6,7,8,2,10,4,,0,4]));
